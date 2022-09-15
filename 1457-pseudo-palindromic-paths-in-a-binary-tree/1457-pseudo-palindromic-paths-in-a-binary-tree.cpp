@@ -1,47 +1,54 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    
-    int count = 0;
-    
-    void dfs(TreeNode* root, vector<int> mp)
+    int ans=0;
+    void xxxx(TreeNode* root,vector<int> v)
     {
-     
-        if(root == NULL)
+        if(root==NULL)
         {
             return;
         }
-        mp[root -> val]++;
-        if(root -> left == NULL && root -> right == NULL)
+        v[root->val]++;
+        if(root->left==NULL&&root->right==NULL)
         {
-            int odd_count = 0;
-            
-            for(auto x : mp)
+            int c=0;
+            for(auto x:v)
             {
-                if(x % 2)
+                if(x%2!=0)
                 {
-                    odd_count++;
+                    c++;
                 }
             }
-            
-            if(odd_count <= 1)
+            if(c<=1)
             {
-                count++;
+                ans++;
             }
-            
             return;
         }
-        dfs(root -> left, mp);
-        
-        dfs(root -> right, mp);
+        xxxx(root->left,v);
+        xxxx(root->right,v);
     }
-
-    
     int pseudoPalindromicPaths (TreeNode* root) {
+        // vector<vector<int>> f;
+        vector<int> v;
+        for(int i=0 ; i<10 ; i++)
+        {
+            v.push_back(0);
+        }
+        int temp=0;
+        xxxx(root,v);
+        // cout<<endl;
+        return ans;
         
-        vector<int> mp(10, 0);
-        
-        dfs(root, mp);
-        
-        return count;
     }
 };
