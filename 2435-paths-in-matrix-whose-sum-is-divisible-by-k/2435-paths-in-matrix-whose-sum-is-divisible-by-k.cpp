@@ -1,30 +1,39 @@
 class Solution {
 public:
-    
+    // vector<vector<vector<int>>> dp;
     int mod = 1e9 + 7;
-    int solve(vector<vector<vector<int>>>& dp,vector<vector<int>>& grid, int i,int j,int k,int sum)
+    
+    int xxxx(vector<vector<int>> &v,int sum,int k,int l,int h,int n,int m,vector<vector<vector<int>>> &dp)
     {
-        if(i < 0 || j < 0 || i > grid.size()-1 || j > grid[0].size()-1)
-            return 0;
-        
-        if(i==grid.size()-1 && j == grid[0].size()-1)
+        if(l<0||h<0||l>=n||h>=m)
         {
-            sum+=grid[i][j];
-            if(sum%k==0)return 1;
             return 0;
         }
-        
-        if(dp[i][j][sum%k]!=-1)return dp[i][j][sum%k];
-        
-        long down = solve(dp,grid,i+1,j,k,sum+grid[i][j]);
-        long right = solve(dp,grid,i,j+1,k,sum+grid[i][j]);
-        
-        return dp[i][j][sum%k]=(down%mod + right%mod)%mod;
+        if(l==n-1&&h==m-1)
+        {
+            sum+=v[l][h];
+            if(sum%k==0)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        if(dp[l][h][sum%k]!=-1)
+        {
+            return dp[l][h][sum%k];
+        }
+        int l1=xxxx(v,sum+v[l][h],k,l+1,h,n,m,dp);
+        int h1=xxxx(v,sum+v[l][h],k,l,h+1,n,m,dp);
+        return dp[l][h][sum%k]=(l1%mod+h1%mod)%mod;
     }
-    
-    int numberOfPaths(vector<vector<int>>& grid, int k) {
+    int numberOfPaths(vector<vector<int>>& v, int k) {
         
-        vector<vector<vector<int>>> dp(grid.size(),vector<vector<int>>(grid[0].size(),vector<int>(51,-1)));
-        return solve(dp,grid,0,0,k,0);
+        int n=v.size();
+        int m=v[0].size();
+        vector<vector<vector<int>>> dp(v.size(),vector<vector<int>>(v[0].size(),vector<int>(51,-1)));
+        return xxxx(v,0,k,0,0,n,m,dp);
+        
+        
+        
     }
 };
